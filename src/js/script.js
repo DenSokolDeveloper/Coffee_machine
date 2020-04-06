@@ -5,8 +5,7 @@
 // Коффемашина:
 
 let conteiner = document.getElementsByTagName('button');
-let moneyStuck = 100;
-let personMoney,ceshBack=0,ceshMoneyBank=0;
+let personMoney,cashBack=0, correctMoney=0,needToadd=0;
 let instraction=document.getElementById('instraction');
 let timer =document.getElementById('timer');
 let newP=document.createElement('p');
@@ -35,24 +34,24 @@ function firstEntrance(){
 firstEntrance();
 
 document.getElementById('latte').onclick = function(){
+    needToadd = latteCost;
     toRemoveActive();
     newP.classList.remove('active');
     setTimeout(()=>{
 
-        let question2 = confirm(`Latte is the best coffee that i can make!!!=)\nIt cost ${latteCost}$\nPress OK and follow instraction`);
+        let question2 = confirm(`Latte is the best coffee that i can make!!!=)\nIt cost ${latteCost}$\nPress OK and follow instruction`);
 
         if(!!question2){
-            personMoney=parseFloat(prompt(`You need to put ${latteCost}$\nI take only 0.5,1,5,10,20,50$`));
+            personMoney=parseFloat(prompt(`You need to put ${latteCost}$\nI take only 1,2,5,10,20$`));
             if (!personMoney){
                 newP.classList.remove('active');
                 setTimeout(()=>{
                     firstEntrance();
                 },300)
             }else{
-                while (personMoney<latteCost){
-                    personMoney=parseFloat(prompt(`You need to put ${latteCost}$\nI take only 0.5,1,5,10,20,50$`));
-                }
-                toAddInstraction('Wait for your coffee');
+                one(personMoney, latteCost);
+
+                toAddInstraction(`Wait for your coffee`);
                 let coffeTimer =4;
                 newT.classList.add('active');
                 newT.classList.add('timer');
@@ -67,16 +66,13 @@ document.getElementById('latte').onclick = function(){
                         newT.classList.remove('active');
                     }
                 },1000);
-                ceshMoneyBank += personMoney;
-                ceshBack = personMoney - latteCost;
-                moneyStuck-=ceshBack;
                 setTimeout(()=>{
                     toAddInstraction(`Please take your money!`);
                     setTimeout(()=>{
                         newPcash.classList.add('active');
                         newPcash.classList.add('cashback');
-                        newPcash.innerHTML = ceshBack;
-                        if (ceshBack !== 0){
+                        newPcash.innerHTML = cashBack;
+                        if (cashBack !== 0){
                             let buttonAccept = document.createElement('button');
                             timer.appendChild(buttonAccept);
                             buttonAccept.classList.add('aceptbutton');
@@ -84,6 +80,7 @@ document.getElementById('latte').onclick = function(){
                             buttonAccept.id='aceptbutton';
                             buttonAccept.innerHTML = `Get your money`;
                             document.getElementById('aceptbutton').onclick=function () {
+                                buttonAccept.classList.remove('active');
                                 setTimeout(()=>{
                                     newPcash.classList.remove('active');
                                     buttonAccept.classList.remove('active');
@@ -96,7 +93,7 @@ document.getElementById('latte').onclick = function(){
                                         },100)
 
                                     },3000)
-                                },3000)
+                                },600)
                             }
                         }else{
                             setTimeout(()=>{
@@ -129,24 +126,23 @@ document.getElementById('latte').onclick = function(){
 };
 
 document.getElementById('capuchino').onclick = function(){
+    needToadd = capuchinoCost;
     toRemoveActive();
     newP.classList.remove('active');
     setTimeout(()=>{
         let question2 = confirm(`Capuchino is the best coffee that i can make!!!=)\nIt cost ${capuchinoCost}$\nPress OK and follow instraction`);
 
         if(!!question2){
-            personMoney=parseFloat(prompt(`You need to put ${capuchinoCost}$\nI take only 0.5,1,5,10,20,50$`));
+            personMoney=parseFloat(prompt(`You need to put ${capuchinoCost}$\nI take only 1,2,5,10,20,50$`));
             if (!personMoney){
                 newP.classList.remove('active');
                 setTimeout(()=>{
                     firstEntrance();
                 },300)
             }else {
-                while (personMoney < capuchinoCost || !personMoney) {
-                    personMoney = parseFloat(prompt(`You need to put ${capuchinoCost}$\nI take only 0.5,1,5,10,20,50$`));
-                }
+                one(personMoney, capuchinoCost);
 
-                toAddInstraction('Wait for your coffee');
+                toAddInstraction(`Wait for your coffee`);
                 let coffeTimer = 4;
                 newT.classList.add('active');
                 newT.classList.add('timer');
@@ -161,16 +157,14 @@ document.getElementById('capuchino').onclick = function(){
                         newT.classList.remove('active');
                     }
                 }, 1000)
-                ceshMoneyBank += personMoney;
-                ceshBack = personMoney - capuchinoCost;
-                moneyStuck -= ceshBack;
+
                 setTimeout(() => {
                     toAddInstraction(`Please take your money!`);
                     setTimeout(() => {
                         newPcash.classList.add('active');
                         newPcash.classList.add('cashback');
-                        newPcash.innerHTML = ceshBack;
-                        if (ceshBack !== 0) {
+                        newPcash.innerHTML = cashBack;
+                        if (cashBack !== 0) {
                             let buttonAccept = document.createElement('button');
                             timer.appendChild(buttonAccept);
                             buttonAccept.classList.add('aceptbutton');
@@ -178,6 +172,7 @@ document.getElementById('capuchino').onclick = function(){
                             buttonAccept.id = 'aceptbutton';
                             buttonAccept.innerHTML = `Get your money`;
                             document.getElementById('aceptbutton').onclick = function () {
+                                buttonAccept.classList.remove('active');
                                 setTimeout(() => {
                                     newPcash.classList.remove('active');
                                     buttonAccept.classList.remove('active');
@@ -190,7 +185,7 @@ document.getElementById('capuchino').onclick = function(){
                                         }, 100)
 
                                     }, 3000)
-                                }, 3000)
+                                }, 600)
                             }
                         } else {
                             setTimeout(() => {
@@ -224,13 +219,14 @@ document.getElementById('capuchino').onclick = function(){
 };
 
 document.getElementById('glyase').onclick = function(){
+    needToadd = glyaseCost;
     toRemoveActive();
     newP.classList.remove('active');
     setTimeout(()=>{
         let question2 = confirm(`Glyase is the best coffee that i can make!!!=)\nIt cost ${glyaseCost}$\nPress OK and follow instraction`);
 
         if(!!question2){
-            personMoney=parseFloat(prompt(`You need to put ${glyaseCost}$\nI take only 0.5,1,5,10,20,50$`));
+            personMoney=parseFloat(prompt(`You need to put ${glyaseCost}$\nI take only 1,2,5,10,20,50$`));
 
             if (!personMoney) {
                 newP.classList.remove('active');
@@ -238,11 +234,9 @@ document.getElementById('glyase').onclick = function(){
                     firstEntrance();
                 }, 300)
             }else {
-                while (personMoney < glyaseCost || !personMoney) {
-                    personMoney = parseFloat(prompt(`You need to put ${glyaseCost}$\nI take only 0.5,1,5,10,20,50$`));
-                }
+                one(personMoney, glyaseCost);
 
-                toAddInstraction('Wait for your coffee');
+                toAddInstraction(`Wait for your coffee`);
                 let coffeTimer = 4;
                 newT.classList.add('active');
                 newT.classList.add('timer');
@@ -257,16 +251,13 @@ document.getElementById('glyase').onclick = function(){
                         newT.classList.remove('active');
                     }
                 }, 1000)
-                ceshMoneyBank += personMoney;
-                ceshBack = personMoney - glyaseCost;
-                moneyStuck -= ceshBack;
                 setTimeout(() => {
                     toAddInstraction(`Please take your money!`);
                     setTimeout(() => {
                         newPcash.classList.add('active');
                         newPcash.classList.add('cashback');
-                        newPcash.innerHTML = ceshBack;
-                        if (ceshBack !== 0) {
+                        newPcash.innerHTML = cashBack;
+                        if (cashBack !== 0) {
                             let buttonAccept = document.createElement('button');
                             timer.appendChild(buttonAccept);
                             buttonAccept.classList.add('aceptbutton');
@@ -274,6 +265,7 @@ document.getElementById('glyase').onclick = function(){
                             buttonAccept.id = 'aceptbutton';
                             buttonAccept.innerHTML = `Get your money`;
                             document.getElementById('aceptbutton').onclick = function () {
+                                buttonAccept.classList.remove('active');
                                 setTimeout(() => {
                                     newPcash.classList.remove('active');
                                     buttonAccept.classList.remove('active');
@@ -286,7 +278,7 @@ document.getElementById('glyase').onclick = function(){
                                         }, 100)
 
                                     }, 3000)
-                                }, 3000)
+                                }, 600)
                             }
                         } else {
                             setTimeout(() => {
@@ -320,13 +312,14 @@ document.getElementById('glyase').onclick = function(){
 };
 
 document.getElementById('espresso').onclick = function(){
+    needToadd=espressoCost;
     toRemoveActive();
     newP.classList.remove('active');
     setTimeout(()=>{
         let question2 = confirm(`Espresso is the best coffee that i can make!!!=)\nIt cost ${espressoCost}$\nPress OK and follow instraction`);
 
         if(!!question2){
-            personMoney=parseFloat(prompt(`You need to put ${espressoCost}$\nI take only 0.5,1,5,10,20,50$`));
+            personMoney=parseFloat(prompt(`You need to put ${espressoCost}$\nI take only 1,2,5,10,20,50$`));
 
             if (!personMoney){
                 newP.classList.remove('active');
@@ -334,9 +327,7 @@ document.getElementById('espresso').onclick = function(){
                     firstEntrance();
                 },300);
             }else {
-                while (personMoney < espressoCost || !personMoney) {
-                    personMoney = parseFloat(prompt(`You need to put ${espressoCost}$\nI take only 0.5,1,5,10,20,50$`));
-                }
+                one(personMoney, espressoCost);
 
                 toAddInstraction('Wait for your coffee');
                 let coffeTimer = 4;
@@ -352,17 +343,14 @@ document.getElementById('espresso').onclick = function(){
                         toAddInstraction(`Please take your coffe but it is HOT!</br>Dont forget your money!`);
                         newT.classList.remove('active');
                     }
-                }, 1000)
-                ceshMoneyBank += personMoney;
-                ceshBack = personMoney - espressoCost;
-                moneyStuck -= ceshBack;
+                }, 1000);
                 setTimeout(() => {
                     toAddInstraction(`Please take your money!`);
                     setTimeout(() => {
                         newPcash.classList.add('active');
                         newPcash.classList.add('cashback');
-                        newPcash.innerHTML = ceshBack;
-                        if (ceshBack !== 0) {
+                        newPcash.innerHTML = cashBack;
+                        if (cashBack !== 0) {
                             let buttonAccept = document.createElement('button');
                             timer.appendChild(buttonAccept);
                             buttonAccept.classList.add('aceptbutton');
@@ -370,6 +358,7 @@ document.getElementById('espresso').onclick = function(){
                             buttonAccept.id = 'aceptbutton';
                             buttonAccept.innerHTML = `Get your money`;
                             document.getElementById('aceptbutton').onclick = function () {
+                                buttonAccept.classList.remove('active');
                                 setTimeout(() => {
                                     newPcash.classList.remove('active');
                                     buttonAccept.classList.remove('active');
@@ -382,7 +371,7 @@ document.getElementById('espresso').onclick = function(){
                                         }, 100)
 
                                     }, 3000)
-                                }, 3000)
+                                }, 600)
                             }
                         } else {
                             setTimeout(() => {
@@ -416,13 +405,14 @@ document.getElementById('espresso').onclick = function(){
 };
 
 document.getElementById('americano').onclick = function(){
+    needToadd=americano;
     toRemoveActive();
     newP.classList.remove('active');
     setTimeout(()=>{
         let question2 = confirm(`Americano is the best coffee that i can make!!!=)\nIt cost ${americano}$\nPress OK and follow instraction`);
 
         if(!!question2){
-            personMoney=parseFloat(prompt(`You need to put ${americano}$\nI take only 0.5,1,5,10,20,50$`));
+            personMoney=parseFloat(prompt(`You need to put ${americano}$\nI take only 1,2,5,10,20,50$`));
 
             if (!personMoney) {
                 newP.classList.remove('active');
@@ -431,9 +421,7 @@ document.getElementById('americano').onclick = function(){
                 }, 300)
             }else {
 
-                while (personMoney < americano || !personMoney) {
-                    personMoney = parseFloat(prompt(`You need to put ${americano}$\nI take only 0.5,1,5,10,20,50$`));
-                }
+                one(personMoney, americano);
 
                 toAddInstraction('Wait for your coffee');
                 let coffeTimer = 4;
@@ -450,16 +438,14 @@ document.getElementById('americano').onclick = function(){
                         newT.classList.remove('active');
                     }
                 }, 1000)
-                ceshMoneyBank += personMoney;
-                ceshBack = personMoney - americano;
-                moneyStuck -= ceshBack;
+
                 setTimeout(() => {
                     toAddInstraction(`Please take your money!`);
                     setTimeout(() => {
                         newPcash.classList.add('active');
                         newPcash.classList.add('cashback');
-                        newPcash.innerHTML = ceshBack;
-                        if (ceshBack !== 0) {
+                        newPcash.innerHTML = cashBack;
+                        if (cashBack !== 0) {
                             let buttonAccept = document.createElement('button');
                             timer.appendChild(buttonAccept);
                             buttonAccept.classList.add('aceptbutton');
@@ -467,6 +453,7 @@ document.getElementById('americano').onclick = function(){
                             buttonAccept.id = 'aceptbutton';
                             buttonAccept.innerHTML = `Get your money`;
                             document.getElementById('aceptbutton').onclick = function () {
+                                buttonAccept.classList.remove('active');
                                 setTimeout(() => {
                                     newPcash.classList.remove('active');
                                     buttonAccept.classList.remove('active');
@@ -479,7 +466,7 @@ document.getElementById('americano').onclick = function(){
                                         }, 100)
 
                                     }, 3000)
-                                }, 3000)
+                                }, 600)
                             }
                         } else {
                             setTimeout(() => {
@@ -513,13 +500,14 @@ document.getElementById('americano').onclick = function(){
 };
 
 document.getElementById('irish-crema').onclick = function(){
+    needToadd=irishcremaCost
     toRemoveActive();
     newP.classList.remove('active');
     setTimeout(()=>{
         let question2 = confirm(`Irish-crema is the best coffee that i can make!!!=)\nIt cost ${irishcremaCost}$\nPress OK and follow instraction`);
 
         if(!!question2){
-            personMoney=parseFloat(prompt(`You need to put ${irishcremaCost}$\nI take only 0.5,1,5,10,20,50$`));
+            personMoney=parseFloat(prompt(`You need to put ${irishcremaCost}$\nI take only 1,2,5,10,20,50$`));
 
             if (!personMoney) {
                 newP.classList.remove('active');
@@ -528,9 +516,7 @@ document.getElementById('irish-crema').onclick = function(){
                 }, 300)
             }else {
 
-                while (personMoney < irishcremaCost || !personMoney) {
-                    personMoney = parseFloat(prompt(`You need to put ${irishcremaCost}$\nI take only 0.5,1,5,10,20,50$`));
-                }
+                one(personMoney, irishcremaCost);
 
                 toAddInstraction('Wait for your coffee');
                 let coffeTimer = 4;
@@ -547,16 +533,13 @@ document.getElementById('irish-crema').onclick = function(){
                         newT.classList.remove('active');
                     }
                 }, 1000)
-                ceshMoneyBank += personMoney;
-                ceshBack = personMoney - irishcremaCost;
-                moneyStuck -= ceshBack;
                 setTimeout(() => {
                     toAddInstraction(`Please take your money!`);
                     setTimeout(() => {
                         newPcash.classList.add('active');
                         newPcash.classList.add('cashback');
-                        newPcash.innerHTML = ceshBack;
-                        if (ceshBack !== 0) {
+                        newPcash.innerHTML = cashBack;
+                        if (cashBack !== 0) {
                             let buttonAccept = document.createElement('button');
                             timer.appendChild(buttonAccept);
                             buttonAccept.classList.add('aceptbutton');
@@ -564,6 +547,7 @@ document.getElementById('irish-crema').onclick = function(){
                             buttonAccept.id = 'aceptbutton';
                             buttonAccept.innerHTML = `Get your money`;
                             document.getElementById('aceptbutton').onclick = function () {
+                                buttonAccept.classList.remove('active');
                                 setTimeout(() => {
                                     newPcash.classList.remove('active');
                                     buttonAccept.classList.remove('active');
@@ -576,7 +560,7 @@ document.getElementById('irish-crema').onclick = function(){
                                         }, 100)
 
                                     }, 3000)
-                                }, 3000)
+                                }, 600)
                             }
                         } else {
                             setTimeout(() => {
@@ -610,13 +594,14 @@ document.getElementById('irish-crema').onclick = function(){
 };
 
 document.getElementById('mokka').onclick = function(){
+    needToadd=mokkaCost;
     toRemoveActive();
     newP.classList.remove('active');
     setTimeout(()=>{
         let question2 = confirm(`Mokka is the best coffee that i can make!!!=)\nIt cost ${mokkaCost}$\nPress OK and follow instraction`);
 
         if(!!question2){
-            personMoney=parseFloat(prompt(`You need to put ${mokkaCost}$\nI take only 0.5,1,5,10,20,50$`));
+            personMoney=parseFloat(prompt(`You need to put ${mokkaCost}$\nI take only 1,2,5,10,20,50$`));
 
             if (!personMoney) {
                 newP.classList.remove('active');
@@ -625,9 +610,7 @@ document.getElementById('mokka').onclick = function(){
                 }, 300)
             }else {
 
-                while (personMoney < mokkaCost || !personMoney) {
-                    personMoney = parseFloat(prompt(`You need to put ${mokkaCost}$\nI take only 0.5,1,5,10,20,50$`));
-                }
+                one(personMoney, mokkaCost);
 
                 toAddInstraction('Wait for your coffee');
                 let coffeTimer = 4;
@@ -644,16 +627,14 @@ document.getElementById('mokka').onclick = function(){
                         newT.classList.remove('active');
                     }
                 }, 1000)
-                ceshMoneyBank += personMoney;
-                ceshBack = personMoney - mokkaCost;
-                moneyStuck -= ceshBack;
+
                 setTimeout(() => {
                     toAddInstraction(`Please take your money!`);
                     setTimeout(() => {
                         newPcash.classList.add('active');
                         newPcash.classList.add('cashback');
-                        newPcash.innerHTML = ceshBack;
-                        if (ceshBack !== 0) {
+                        newPcash.innerHTML = cashBack;
+                        if (cashBack !== 0) {
                             let buttonAccept = document.createElement('button');
                             timer.appendChild(buttonAccept);
                             buttonAccept.classList.add('aceptbutton');
@@ -661,6 +642,7 @@ document.getElementById('mokka').onclick = function(){
                             buttonAccept.id = 'aceptbutton';
                             buttonAccept.innerHTML = `Get your money`;
                             document.getElementById('aceptbutton').onclick = function () {
+                                buttonAccept.classList.remove('active');
                                 setTimeout(() => {
                                     newPcash.classList.remove('active');
                                     buttonAccept.classList.remove('active');
@@ -673,7 +655,7 @@ document.getElementById('mokka').onclick = function(){
                                         }, 100)
 
                                     }, 3000)
-                                }, 3000)
+                                }, 600)
                             }
                         } else {
                             setTimeout(() => {
@@ -707,13 +689,14 @@ document.getElementById('mokka').onclick = function(){
 };
 
 document.getElementById('green_tea').onclick = function(){
+    needToadd=greenteaCost;
     toRemoveActive();
     newP.classList.remove('active');
     setTimeout(()=>{
         let question2 = confirm(`Green tea is the best coffee that i can make!!!=)\nIt cost ${greenteaCost}$\nPress OK and follow instraction`);
 
         if(!!question2){
-            personMoney=parseFloat(prompt(`You need to put ${greenteaCost}$\nI take only 0.5,1,5,10,20,50$`));
+            personMoney=parseFloat(prompt(`You need to put ${greenteaCost}$\nI take only 1,2,5,10,20,50$`));
 
             if (!personMoney) {
                 newP.classList.remove('active');
@@ -722,9 +705,7 @@ document.getElementById('green_tea').onclick = function(){
                 }, 300)
             }else {
 
-                while (personMoney < greenteaCost || !personMoney) {
-                    personMoney = parseFloat(prompt(`You need to put ${greenteaCost}$\nI take only 0.5,1,5,10,20,50$`));
-                }
+                one(personMoney, greenteaCost);
 
                 toAddInstraction('Wait for your coffee');
                 let coffeTimer = 4;
@@ -741,16 +722,14 @@ document.getElementById('green_tea').onclick = function(){
                         newT.classList.remove('active');
                     }
                 }, 1000)
-                ceshMoneyBank += personMoney;
-                ceshBack = personMoney - greenteaCost;
-                moneyStuck -= ceshBack;
+
                 setTimeout(() => {
                     toAddInstraction(`Please take your money!`);
                     setTimeout(() => {
                         newPcash.classList.add('active');
                         newPcash.classList.add('cashback');
-                        newPcash.innerHTML = ceshBack;
-                        if (ceshBack !== 0) {
+                        newPcash.innerHTML = cashBack;
+                        if (cashBack !== 0) {
                             let buttonAccept = document.createElement('button');
                             timer.appendChild(buttonAccept);
                             buttonAccept.classList.add('aceptbutton');
@@ -758,6 +737,7 @@ document.getElementById('green_tea').onclick = function(){
                             buttonAccept.id = 'aceptbutton';
                             buttonAccept.innerHTML = `Get your money`;
                             document.getElementById('aceptbutton').onclick = function () {
+                                buttonAccept.classList.remove('active');
                                 setTimeout(() => {
                                     newPcash.classList.remove('active');
                                     buttonAccept.classList.remove('active');
@@ -770,7 +750,7 @@ document.getElementById('green_tea').onclick = function(){
                                         }, 100)
 
                                     }, 3000)
-                                }, 3000)
+                                }, 600)
                             }
                         } else {
                             setTimeout(() => {
@@ -818,5 +798,31 @@ function toAddActive(){
 function toRemoveActive(){
     for(let i=0;i<conteiner.length;i++){
         conteiner[i].classList.remove('active');
+    }
+}
+
+function one (personMoney,coffeCost) {
+    correctMoney= checker(personMoney);
+    if (correctMoney<coffeCost){
+        needToadd=coffeCost-correctMoney;
+        personMoney= parseFloat(prompt(`Внесите еще ${needToadd}`));
+        one(personMoney,needToadd);
+    }else if (correctMoney>=coffeCost){
+
+        if (correctMoney===coffeCost){
+            return cashBack;
+        }else if (correctMoney>coffeCost){
+            cashBack=correctMoney-coffeCost;
+          return   cashBack;
+        }
+    }
+}
+function checker(personMoney){
+    if  ((personMoney===1)||(personMoney===2)||(personMoney===5)||(personMoney===10)||(personMoney===20)){
+        return personMoney;
+    }else if(personMoney){
+        personMoney=parseFloat (prompt(`Такие купюры не принимаются\nВам нужно внести ${needToadd}\nПопробуйте снова\nПринимаются купюры наминалом только\n
+1,2,5,10,20`));
+        return  checker(personMoney);
     }
 }
